@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://floapp.app/sitemap.xml
