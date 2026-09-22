@@ -27,7 +27,7 @@
 <article class="prose">
   <div class="eyebrow">Privacy policy</div>
   <h1>How Flo handles your data</h1>
-  <p class="meta">Effective September 14, 2026 · Applies to floapp.app, floforecast.com and the Flo Forecast app</p>
+  <p class="meta">Effective September 22, 2026 · Applies to floapp.app, floforecast.com and the Flo Forecast app</p>
   <p>This policy explains what JustJoshin LLC ("we", "us") collects when you use Flo, why, and what control you have over it. It's written to be read, not skimmed; if anything is unclear, email <a href="mailto:support@floapp.app">support@floapp.app</a>.</p>
 
   <h2>The short version</h2>
@@ -45,6 +45,8 @@
   <p><b>Account information.</b> When you create an account we store your email address and, if you use Sign in with Apple, the identifier Apple provides (which may be a private relay address). We use it to sign you in, send verification and password-reset messages, and contact you about your account. We don't send marketing email.</p>
   <p><b>Bank data, if you link an account.</b> Linking is optional. If you do, you sign in to your bank on Plaid's screen; Plaid gives us a read-only token that lets us retrieve your account name, balance, and transaction history (date, description, amount, pending status). We use this to build your forecast, match transactions to the bills and income you've set up, and show you your activity. We cannot initiate payments, transfers, or withdrawals. Plaid's own handling of your data is described in the <a href="https://plaid.com/legal/#end-user-privacy-policy" rel="noopener">Plaid End User Privacy Policy</a>.</p>
   <p><b>What you enter.</b> Bills, income, categories, groups, one-off items, notes, your balance floor, and — if you track by hand instead of linking a bank — the balance and transactions you type in.</p>
+  <p><b>Smarter sorting (optional AI).</b> Off unless you turn it on, and Flo asks first. When it's on, to name unfamiliar businesses and suggest categories and budget amounts, Flo sends Anthropic (the maker of Claude) the business name and category as your bank wrote them, amounts, how often a charge repeats, and your category names. It never sends your email, account numbers or balances, payments to or from people, or transfers, and your name is removed first if your sign-in shared it. Anthropic doesn't train its models on this data and normally deletes it within 30 days. Every suggestion waits for you to accept it. You can turn Smarter sorting off at any time in Settings.</p>
+  <p><b>Notifications, if you allow them.</b> If you turn on notifications, we store your phone's push token (an address for delivering notifications to that device, not a phone number or identifier of you) so our server can send them. Notifications are delivered through Expo's push service and Apple Push Notification service. They say that something needs a look or that a card payment is due, and never include an amount. Turning notifications off in Settings removes the token.</p>
   <p><b>Technical data.</b> If the app crashes, a crash report (device model, OS version, app version, and the error) may be sent to us so we can fix it. Crash reports don't include your financial data.</p>
 
   <h2>What we don't do</h2>
@@ -55,7 +57,7 @@
   </ul>
 
   <h2>Where your data lives and who can reach it</h2>
-  <p>Your data is stored in a database hosted by Supabase in the United States, encrypted in transit and at rest. Access is restricted by database-level rules so that each user's data is readable only by that user's authenticated session. Plaid access tokens are kept in a separate, further-restricted store the app itself cannot read. A small number of service providers process data on our behalf solely to run Flo: Supabase (hosting and authentication), Plaid (bank connectivity), Apple (app distribution and Sign in with Apple), and a crash-reporting service. Each is bound by its own terms to use the data only to provide that service.</p>
+  <p>Your data is stored in a database hosted by Supabase in the United States, encrypted in transit and at rest. Access is restricted by database-level rules so that each user's data is readable only by that user's authenticated session. Plaid access tokens are kept in a separate, further-restricted store the app itself cannot read. A small number of service providers process data on our behalf solely to run Flo: Supabase (hosting and authentication), Plaid (bank connectivity), Apple (app distribution, Sign in with Apple and notification delivery), Expo (notification delivery), Anthropic (Smarter sorting, only if you turn it on), an email provider for sign-in and account messages, and a crash-reporting service. Each is bound by its own terms to use the data only to provide that service.</p>
 
   <h2>How long we keep it</h2>
   <p>For as long as your account exists. When you delete your account, we revoke the Plaid connection and delete your account record, bank data, and everything you entered within 30 days; backups age out within a further 30 days. If you disconnect a bank without deleting your account, the transactions already imported stay in your account until you delete them or the account.</p>
@@ -63,6 +65,7 @@
   <h2>Your choices and rights</h2>
   <ul>
     <li><b>Disconnect a bank</b> at any time from Settings.</li>
+    <li><b>Turn Smarter sorting or notifications off</b> at any time from Settings.</li>
     <li><b>Delete your account</b> from Settings; this is permanent.</li>
     <li><b>Export or correct</b> your data, or ask what we hold about you, by emailing <a href="mailto:support@floapp.app">support@floapp.app</a>. We'll respond within 30 days and won't charge for it.</li>
   </ul>
