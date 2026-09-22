@@ -106,3 +106,7 @@ html,body{overflow-x:clip}
   .waves i,.phone{animation:none}
   .feat,.btn,.shots .shot img{transition:none}
 }
+
+/* Keep screenshots in proportion: the width/height attributes reserve the space, and
+   height:auto lets the width decide so nothing is stretched. */
+.phone,.shot img{height:auto;aspect-ratio:390/844}
