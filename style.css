@@ -110,3 +110,39 @@ html,body{overflow-x:clip}
 /* Keep screenshots in proportion: the width/height attributes reserve the space, and
    height:auto lets the width decide so nothing is stretched. */
 .phone,.shot img{height:auto;aspect-ratio:390/844}
+
+
+/* ---- "Why it's called Flo": the dial, beside what it means ------------------------
+   The film is the brand piece, not a screenshot, so it gets a frame of its own rather
+   than the phone's — a glow behind it in the same gradient as everything else, and the
+   words it turns through spelled out beside it for anyone who can't or won't watch it. */
+.reel{position:relative;overflow:hidden}
+.reel::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(60% 70% at 78% 40%,rgba(47,111,235,.16),transparent 70%),
+             radial-gradient(50% 60% at 18% 30%,rgba(15,138,75,.13),transparent 70%)}
+.reel-in{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+/* One grid for the whole list rather than one per row, so the word column is as wide as
+   the longest word — "flourish" — and every line still starts in the same place. A fixed
+   width had to guess, and guessed short. */
+.reel-words{list-style:none;margin:20px 0 0;padding:0;display:grid;
+  grid-template-columns:max-content 1fr;column-gap:16px;row-gap:12px;align-items:baseline}
+.reel-words li{display:contents}
+.reel-words b{font-size:23px;letter-spacing:-.02em}
+.reel-words span{color:var(--sub);line-height:1.5}
+.reel-screen{margin:0;display:grid;justify-items:center;gap:10px;position:relative}
+/* Behind the film, not around it: the video's own corners are the only edge. */
+.reel-screen::before{content:"";position:absolute;inset:4% 14% 12%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(47,111,235,.34),rgba(15,138,75,.16),transparent);
+  filter:blur(26px);z-index:-1}
+.reel-video{width:min(270px,78vw);height:auto;aspect-ratio:9/16;display:block;border-radius:26px;
+  box-shadow:0 22px 54px rgba(20,23,28,.22);border:1px solid var(--line);background:#0f1115}
+@media (max-width:760px){
+  .reel-in{grid-template-columns:1fr;gap:28px}
+  /* The film first on a phone: it says the whole thing in twelve seconds. */
+  .reel-screen{order:-1}
+  .reel-words{column-gap:12px}
+}
+/* Asked not to animate: the poster frame stands still and says the same thing. */
+@media (prefers-reduced-motion:reduce){
+  .reel-video{animation:none}
+}

@@ -39,6 +39,28 @@
   <div class="waves hero-waves" aria-hidden="true"><i></i><i></i><i></i></div>
 </section>
 
+<section class="section reel wavy" style="margin-top:70px;border-top:0" aria-labelledby="reel-h">
+  <div class="reel-in">
+    <div>
+      <h2 id="reel-h">Why it's called Flo</h2>
+      <p class="sub">Four words the name already carries, and each one is something the app actually does.</p>
+      <ul class="reel-words">
+        <li><b class="grad">flow</b><span>Know your cash flow — today, and a year out.</span></li>
+        <li><b class="grad">float</b><span>See what's floating on your cards, and when each bill lands.</span></li>
+        <li><b class="grad">floor</b><span>Set the balance you won't go under, and get told before you do.</span></li>
+        <li><b class="grad">flourish</b><span>Give savings a goal and a date, and watch the climb.</span></li>
+      </ul>
+    </div>
+    <figure class="reel-screen">
+      <video class="reel-video" src="/img/flo-dial.mp4" poster="/img/flo-dial-poster.jpg"
+             width="270" height="480" autoplay muted loop playsinline preload="metadata"
+             aria-label="The word flo turning like a dial through flow, float, floor and flourish, each with a line about what Flo does"></video>
+      <figcaption class="note">Go with the Flo.</figcaption>
+    </figure>
+  </div>
+  <div class="waves" aria-hidden="true"><i></i><i></i><i></i></div>
+</section>
+
 <section class="section" style="margin-top:70px;border-top:0">
   <h2>Where your money is going, not just where it went</h2>
   <p class="sub">Most budgeting apps report the past. Flo looks ahead — at every bill, paycheck and card payment still to come — so you can see a problem weeks before it lands.</p>
@@ -84,5 +106,19 @@
     <div><a href="/about">About</a><a href="/support">Support</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
   </div>
 </footer>
+<script>
+// CSS can pause an animation but not a film. Anyone who has asked their device not to
+// animate things gets the poster frame instead, which carries the same sentence.
+(function () {
+  try {
+    var v = document.querySelector(".reel-video");
+    if (!v) return;
+    var quiet = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var apply = function () { if (quiet.matches) { v.autoplay = false; v.pause(); v.currentTime = 0; } };
+    apply();
+    quiet.addEventListener ? quiet.addEventListener("change", apply) : quiet.addListener(apply);
+  } catch (e) { /* the poster is showing either way */ }
+})();
+</script>
 </body>
 </html>
