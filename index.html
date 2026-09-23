@@ -16,6 +16,46 @@
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<script>
+// The dial film, once, before anything else: it plays on the first visit of a session,
+// then fades and the site is underneath. A tap or a key anywhere skips it. Anyone who
+// has asked their device not to animate, or who has already seen it this session, or
+// whose browser won't autoplay, gets the site straight away.
+(function () {
+  try {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    try { if (sessionStorage.getItem("flo.intro") === "1") return; } catch (e) { /* no storage: still play once */ }
+    var d = document.createElement("div");
+    d.className = "intro";
+    d.setAttribute("role", "dialog");
+    d.setAttribute("aria-label", "Why it's called Flo — tap anywhere to skip");
+    d.innerHTML = '<video class="intro-video" src="/img/flo-dial.mp4" poster="/img/flo-dial-poster.jpg" muted playsinline preload="auto"' +
+      ' width="1080" height="1920" aria-label="The word flo turning like a dial through flow, float, floor and flourish"></video>' +
+      '<p class="intro-skip">tap anywhere to skip</p>';
+    document.documentElement.classList.add("intro-on");
+    document.body.appendChild(d);
+    var v = d.querySelector("video");
+    var done = false;
+    var seen = function () { try { sessionStorage.setItem("flo.intro", "1"); } catch (e) {} };
+    var away = function () {
+      if (done) return; done = true;
+      seen();
+      d.classList.add("intro-out");
+      document.documentElement.classList.remove("intro-on");
+      window.removeEventListener("keydown", away);
+      setTimeout(function () { try { v.pause(); d.remove(); } catch (e) {} }, 900);
+    };
+    v.addEventListener("ended", away);
+    v.addEventListener("error", away);
+    d.addEventListener("click", away);
+    d.addEventListener("touchend", function (e) { e.preventDefault(); away(); }, { passive: false });
+    window.addEventListener("keydown", away);
+    var p = v.play();
+    if (p && p.catch) p.catch(away);   // autoplay refused: no film, no wait
+    setTimeout(function () { if (!done && v.readyState < 2) away(); }, 6000);   // still loading: don't hold the page
+  } catch (e) { /* the site is underneath either way */ }
+})();
+</script>
 <header class="wrap">
   <nav class="nav">
     <a class="brand" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><defs><linearGradient id="gBrand" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#0f8a4b"/><stop offset="1" stop-color="#2f6feb"/></linearGradient></defs><path d="M5 14 C 19.1 6, 28.9 22, 43 14" fill="none" stroke="url(#gBrand)" stroke-width="5" stroke-linecap="round"/><path d="M5 25 C 19.1 17, 28.9 33, 43 25" fill="none" stroke="url(#gBrand)" stroke-width="4" stroke-linecap="round" opacity=".6"/><path d="M5 36 C 19.1 28, 28.9 44, 43 36" fill="none" stroke="url(#gBrand)" stroke-width="3" stroke-linecap="round" opacity=".3"/></svg><span>flo</span></a>
