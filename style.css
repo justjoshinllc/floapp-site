@@ -158,3 +158,15 @@ html.intro-on{overflow:hidden}
   color:#eef0f3;opacity:.55;font-size:13px;letter-spacing:.04em;animation:intro-hint 1.2s ease 1.5s both}
 @keyframes intro-hint{from{opacity:0}to{opacity:.55}}
 @media (prefers-reduced-motion:reduce){.intro{display:none}}
+
+.waitlist{margin:0}
+.wl-label{display:block;font-weight:600;margin-bottom:10px}
+.wl-row{display:flex;gap:8px;flex-wrap:wrap}
+.wl-row input{flex:1 1 220px;min-width:0;font:inherit;font-size:16px;padding:11px 14px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.wl-row input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.wl-row .btn{cursor:pointer}
+.wl-row .btn:disabled{opacity:.6;cursor:default}
+.wl-note{margin:10px 0 0;font-size:14px;color:var(--sub)}
+.wl-ok{color:var(--pos)}
+.wl-bad{color:#c0392b}
+.wl-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
