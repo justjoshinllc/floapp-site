@@ -66,6 +66,8 @@
   <h2>Where your data lives and who can reach it</h2>
   <p>Your data is stored in a database hosted by Supabase in the United States, encrypted in transit and at rest. Access is restricted by database-level rules so that each user's data is readable only by that user's authenticated session. Plaid access tokens are kept in a separate, further-restricted store the app itself cannot read. A small number of service providers process data on our behalf solely to run Flo: Supabase (hosting and authentication), Plaid (bank connectivity), Apple (app distribution, Sign in with Apple and notification delivery), Expo (notification delivery), Anthropic (Smarter sorting, only if you turn it on), an email provider for sign-in and account messages, and Sentry (crash reports). Each is bound by its own terms to use the data only to provide that service.</p>
 
+  <p><b>On your phone.</b> Flo keeps a copy of the last data it loaded on your phone, so the app still opens with no signal. It's in the app's own storage, protected by your phone's encryption and passcode like everything else on the device, and it's removed when you sign out or delete the app.</p>
+
   <h2>How long we keep it</h2>
   <p>For as long as your account exists. When you delete your account, we revoke the Plaid connection and delete your account record, bank data, and everything you entered within 30 days; backups age out within a further 30 days. If you disconnect a bank without deleting your account, the transactions already imported stay in your account until you delete them or the account.</p>
 
