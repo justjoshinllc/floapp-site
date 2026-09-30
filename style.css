@@ -60,6 +60,8 @@ footer{border-top:1px solid var(--line);padding-block:22px 40px;font-size:13.5px
 footer .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 footer a{color:var(--sub);text-decoration:none;margin-right:14px}
 footer a:hover{color:var(--ink)}
+footer a.ig{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+footer a.ig svg{flex:none}
 
 /* ---- The logo's waves, drifting -------------------------------------------------
    Three strokes, thick to faint as in the mark, each a strip that repeats every
