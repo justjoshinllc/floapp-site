@@ -116,10 +116,16 @@ html,body{overflow-x:clip}
    The film is the brand piece, not a screenshot, so it gets a frame of its own rather
    than the phone's — a glow behind it in the same gradient as everything else, and the
    words it turns through spelled out beside it for anyone who can't or won't watch it. */
-.reel{position:relative;overflow:hidden}
-.reel::before{content:"";position:absolute;inset:0;z-index:-1;
-  background:radial-gradient(60% 70% at 78% 40%,rgba(47,111,235,.16),transparent 70%),
-             radial-gradient(50% 60% at 18% 30%,rgba(15,138,75,.13),transparent 70%)}
+/* No overflow clipping here: it cut the waves off flat along the section's bottom edge
+   and at the content's width. The page itself already clips sideways (html, body). The
+   glow reaches past the section on every side and fades out before its own edge, so
+   there is no box to see where it stops. */
+.reel{position:relative;isolation:isolate}
+.reel::before{content:"";position:absolute;inset:-60px -12vw;z-index:-1;pointer-events:none;
+  background:radial-gradient(45% 55% at 72% 45%,rgba(47,111,235,.14),transparent 70%),
+             radial-gradient(40% 50% at 22% 35%,rgba(15,138,75,.11),transparent 70%);
+  -webkit-mask-image:radial-gradient(closest-side,#000 55%,transparent);
+          mask-image:radial-gradient(closest-side,#000 55%,transparent)}
 .reel-in{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
 /* One grid for the whole list rather than one per row, so the word column is as wide as
    the longest word — "flourish" — and every line still starts in the same place. A fixed
@@ -134,8 +140,12 @@ html,body{overflow-x:clip}
 .reel-screen::before{content:"";position:absolute;inset:4% 14% 12%;border-radius:50%;
   background:radial-gradient(closest-side,rgba(47,111,235,.34),rgba(15,138,75,.16),transparent);
   filter:blur(26px);z-index:-1}
+/* The film fills its frame edge to edge (object-fit), with the film's own gradient
+   behind it rather than black, so a pixel of rounding never shows as a dark line along
+   the top or bottom. No border: the corners and the shadow are the edge. */
 .reel-video{width:min(270px,78vw);height:auto;aspect-ratio:9/16;display:block;border-radius:26px;
-  box-shadow:0 22px 54px rgba(20,23,28,.22);border:1px solid var(--line);background:#0f1115}
+  object-fit:cover;box-shadow:0 22px 54px rgba(20,23,28,.22);
+  background:linear-gradient(160deg,#22c06c,#1f7f8f 50%,#4a86f5)}
 @media (max-width:760px){
   .reel-in{grid-template-columns:1fr;gap:28px}
   /* The film first on a phone: it says the whole thing in twelve seconds. */
