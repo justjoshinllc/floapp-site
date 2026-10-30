@@ -4,126 +4,348 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Flo · Know what's safe to spend, and what's coming</title>
-<meta name="description" content="Flo links your accounts, learns your bills and paychecks, tells you what's safe to spend, and warns you two weeks before a dip. On iPhone and the web, from JustJoshin LLC, Greenville SC.">
+<meta name="description" content="Flo shows your checking balance day by day: today, the low point, every bill and paycheck on its date. New charges get one tap from you. Read-only, through Plaid. On iPhone and the web.">
 <link rel="canonical" href="https://floapp.app/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' aria-hidden='true'%3E%3Cdefs%3E%3ClinearGradient id='gBrand' x1='0' x2='1' y1='0' y2='0'%3E%3Cstop offset='0' stop-color='%230f8a4b'/%3E%3Cstop offset='1' stop-color='%232f6feb'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M5 14 C 19.1 6, 28.9 22, 43 14' fill='none' stroke='url(%23gBrand)' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M5 25 C 19.1 17, 28.9 33, 43 25' fill='none' stroke='url(%23gBrand)' stroke-width='4' stroke-linecap='round' opacity='.6'/%3E%3Cpath d='M5 36 C 19.1 28, 28.9 44, 43 36' fill='none' stroke='url(%23gBrand)' stroke-width='3' stroke-linecap='round' opacity='.3'/%3E%3C/svg%3E">
 <meta property="og:title" content="Flo · Know what's safe to spend, and what's coming">
-<meta property="og:description" content="Flo links your accounts, learns your bills and paychecks, tells you what's safe to spend, and warns you two weeks before a dip. On iPhone and the web, from JustJoshin LLC, Greenville SC.">
+<meta property="og:description" content="Your checking balance day by day: today, the low point, every bill and paycheck on its date. New charges get one tap from you. Read-only, through Plaid.">
 <meta property="og:url" content="https://floapp.app/">
 <meta property="og:site_name" content="Flo">
-<link rel="stylesheet" href="/style.css?v=2026-10-14">
+<meta property="og:image" content="https://floapp.app/img/home-hero.png">
+<style>
+/* The homepage carries its own styles: the other pages share style.css. Same tokens,
+   same system font (the app's own), nothing downloaded from anyone else. */
+:root{
+  --bg:#f7f8fa; --card:#ffffff; --ink:#14171c; --sub:#5b6270; --line:#e6e8ec;
+  --accent:#2f6feb; --accent-weak:#eaf1ff; --pos:#0f8a4b; --pos-weak:#e9f8ef; --warn-weak:#fbf3de; --warn-ink:#7a5a07;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root{
+  --bg:#111317; --card:#191c22; --ink:#eef0f3; --sub:#9aa1ad; --line:#2a2e37;
+  --accent:#6d9bff; --accent-weak:#1c2740; --pos:#3ecb7e; --pos-weak:#132a1e; --warn-weak:#2c2410; --warn-ink:#e0b23e; } }
+*{box-sizing:border-box}
+html{color-scheme:light dark}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font)}
+a{color:var(--accent);text-decoration:none}
+h1,h2,h3{margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1{font-size:46px;line-height:1.08;font-weight:700}
+h2{font-size:30px;line-height:1.15;font-weight:700}
+h3{font-size:18px;line-height:1.3;font-weight:700}
+p{margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band{padding-block:72px}
+.band.alt{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band.alt + .band.alt{border-top:0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lede{font-size:18px;line-height:1.55;color:var(--sub);max-width:60ch;text-wrap:pretty}
+.note{font-size:13px;color:var(--sub)}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:11px;padding:12px 18px;font-weight:600;font-size:15px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding-block:18px;gap:12px;flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center;gap:8px;font-size:22px;font-weight:700;color:var(--ink)}
+.brand svg{width:30px;height:30px}
+.links{display:flex;gap:4px;flex-wrap:wrap}
+.links a{color:var(--sub);padding:7px 11px;border-radius:9px;font-size:14px;font-weight:500}
+.links a.signin{color:var(--ink);background:var(--card);border:1px solid var(--line)}
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:48px 72px}
+.hero .copy{display:grid;gap:18px}
+.hero h1 .g{color:var(--pos)} .hero h1 .b{color:var(--accent)}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.phone{width:min(100%,330px);margin:0 auto;border-radius:34px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(20,23,28,.14);overflow:hidden;background:linear-gradient(180deg,#cfe9dc,#d8e3f3)}
+.phone img{display:block;width:100%;height:auto}
+/* the drawn Home check-in, next to the budget and checking receipts */
+.phone.home{background:var(--bg);padding:18px 14px 22px;display:grid;gap:12px;font-size:13px}
+.ph-top{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 6px}
+.ph-top b{font-size:15px}
+.ph-pill{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:4px 9px;font-size:11.5px;font-weight:600;color:var(--sub)}
+.ph-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:10px}
+.ph-card.ghost{opacity:.55}
+.ph-row{display:flex;justify-content:space-between;align-items:baseline}
+.ph-row b{font-size:14.5px}
+.ph-link{color:var(--accent);font-size:11.5px;font-weight:600}
+.ph-bank{color:var(--sub);font-size:11.5px;margin-top:-6px}
+.ph-card.checkin{gap:0;padding:6px 14px}
+.ci{display:grid;grid-template-columns:14px 1fr;gap:10px;align-items:start;padding:11px 0;border-top:1px solid var(--line)}
+.ci:first-child{border-top:0}
+.dot{width:10px;height:10px;border-radius:5px;margin-top:5px;background:var(--pos)} .dot.warn{background:var(--warn-ink)}
+.ci-l{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sub)}
+.ci-t{font-size:14px;font-weight:700;margin-top:1px} .ci-t.warn{color:var(--warn-ink)}
+.ci-s{font-size:12px;color:var(--sub);margin-top:1px}
+.ci-hi{display:inline-block;margin-top:6px;background:var(--warn-weak);color:var(--warn-ink);font-weight:700;font-size:13px;border-radius:8px;padding:5px 9px;box-shadow:0 0 0 2px var(--warn-ink)}
+/* the one-line proof strip */
+.strip{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;font-size:14px;color:var(--sub);padding-block:20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strip b{color:var(--ink);font-weight:600}
+/* day by day */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.two .copy{display:grid;gap:14px}
+.chart{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:14px;box-shadow:0 12px 36px rgba(20,23,28,.08)}
+.chart img{display:block;width:100%;height:auto;border-radius:10px}
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.day{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg)}
+.day .k{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);font-weight:700}
+.day .v{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+/* budget vs checking: two receipts */
+.punch{font-size:16px;line-height:1.5;color:var(--ink);border-left:3px solid var(--warn-ink);padding-left:14px;text-wrap:pretty}
+.rcs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;align-items:start}
+.rc{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:14px 16px 12px;display:grid;gap:0;font-size:14px}
+.rc.warn{border-color:var(--warn-ink);box-shadow:0 0 0 3px var(--warn-weak)}
+.rc-h{font-weight:700;font-size:15px;padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:4px;display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.rc-h span{font-weight:500;font-size:12.5px;color:var(--sub)}
+.rc-l{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--line)}
+.rc-l span{color:var(--sub);font-size:13.5px;line-height:1.35;text-wrap:pretty}
+.rc-l b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rc-t{display:grid;gap:3px;padding-top:12px}
+.rc-t span{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sub)}
+.rc-t b{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.1;white-space:nowrap}
+.rc b.low{color:var(--warn-ink)} .rc b.pos{color:var(--pos)}
+/* complaints to answers */
+.pairs{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:36px}
+.pair{display:grid;gap:18px;align-content:start;border:1px solid var(--line);border-radius:20px;background:var(--card);padding:22px}
+.pair .q{font-size:20px;line-height:1.3;font-weight:600;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
+.pair .q small{display:block;font-weight:400;color:var(--sub);font-size:13px;margin-top:6px;text-wrap:pretty}
+.pair h3{margin-top:16px}
+.pair p{margin-top:8px;color:var(--sub);font-size:15px;text-wrap:pretty}
+.shot.plain{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--bg);padding:10px}
+.shot.plain img{display:block;width:100%;height:auto;border-radius:8px}
+/* budget from history */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.step{border-top:3px solid var(--accent);padding-top:14px}
+.step .n{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+.step h3{margin-top:6px}
+.step p{margin-top:6px;color:var(--sub);font-size:15px;text-wrap:pretty}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px;align-items:start}
+.shots figure{margin:0}
+.shots figcaption{font-size:13px;color:var(--sub);text-align:center;margin-top:10px;text-wrap:balance}
+/* your bank */
+.plain{border:1px solid var(--line);border-left:4px solid var(--pos);border-radius:14px;background:var(--card);padding:20px 22px;display:grid;gap:8px;max-width:72ch}
+.also{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 28px;margin-top:24px}
+.also div{display:grid;gap:4px;padding-block:10px;border-top:1px solid var(--line)}
+.also b{font-weight:600}
+.also span{color:var(--sub);font-size:14px;text-wrap:pretty}
+/* the name */
+.name{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px}
+.name div{border-top:1px solid var(--line);padding-top:12px}
+.name b{color:var(--accent);font-size:18px}
+.name span{display:block;color:var(--sub);font-size:14px;margin-top:4px}
+/* questions */
+details{border-top:1px solid var(--line);padding:14px 0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--sub);font-weight:400}
+details[open] summary::after{content:"\2212"}
+details p{color:var(--sub);margin-top:8px;max-width:70ch}
+/* footer */
+footer{padding-block:36px 48px;color:var(--sub);font-size:13px;display:grid;gap:10px}
+footer .fl{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+footer a.ig{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+footer a.ig svg{flex:none}
+@media (max-width:860px){
+  h1{font-size:36px} h2{font-size:26px}
+  .hero{grid-template-columns:1fr;gap:28px;padding-block:28px 48px}
+  .two{grid-template-columns:1fr}
+  .pairs{grid-template-columns:1fr}
+  .rcs{grid-template-columns:1fr}
+  .steps,.shots,.also{grid-template-columns:1fr}
+  .name{grid-template-columns:1fr 1fr}
+  .band{padding-block:52px}
+}
+@media (max-width:480px){ .days{grid-template-columns:1fr} }
+</style>
 </head>
 <body>
-<header class="wrap">
-  <nav class="nav">
-    <a class="brand" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><defs><linearGradient id="gBrand" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#0f8a4b"/><stop offset="1" stop-color="#2f6feb"/></linearGradient></defs><path d="M5 14 C 19.1 6, 28.9 22, 43 14" fill="none" stroke="url(#gBrand)" stroke-width="5" stroke-linecap="round"/><path d="M5 25 C 19.1 17, 28.9 33, 43 25" fill="none" stroke="url(#gBrand)" stroke-width="4" stroke-linecap="round" opacity=".6"/><path d="M5 36 C 19.1 28, 28.9 44, 43 36" fill="none" stroke="url(#gBrand)" stroke-width="3" stroke-linecap="round" opacity=".3"/></svg><span>flo</span></a>
-    <div class="links"><a href="/" aria-current="page">Home</a><a href="/about">About</a><a href="/support">Support</a><a href="/privacy">Privacy</a><a class="signin" href="https://app.floapp.app">Sign in</a></div>
-  </nav>
+<header class="wrap nav">
+  <a class="brand" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><defs><linearGradient id="gBrand" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#0f8a4b"/><stop offset="1" stop-color="#2f6feb"/></linearGradient></defs><path d="M5 14 C 19.1 6, 28.9 22, 43 14" fill="none" stroke="url(#gBrand)" stroke-width="5" stroke-linecap="round"/><path d="M5 25 C 19.1 17, 28.9 33, 43 25" fill="none" stroke="url(#gBrand)" stroke-width="4" stroke-linecap="round" opacity=".6"/><path d="M5 36 C 19.1 28, 28.9 44, 43 36" fill="none" stroke="url(#gBrand)" stroke-width="3" stroke-linecap="round" opacity=".3"/></svg><span>flo</span></a>
+  <nav class="links"><a href="/" aria-current="page">Home</a><a href="/about">About</a><a href="/support">Support</a><a href="/privacy">Privacy</a><a class="signin" href="https://app.floapp.app">Sign in</a></nav>
 </header>
-<main class="wrap">
 
-<section class="hero wavy">
-  <div>
-    <div class="eyebrow">Cash-flow forecasting for iPhone and the web</div>
-    <h1>Know what's safe to spend, <span class="grad">and what's coming.</span></h1>
-    <p class="lede">Flo links your accounts, learns your bills and paychecks, and projects your balance day by day. One number tells you what's safe to spend, and Flo warns you two weeks before a dip. Coming to the App Store as <b>Flo Forecast</b>.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="/support#early-access">Join the early access list</a>
-      <a class="btn" href="/about">How it works</a>
+<main>
+<section class="wrap hero">
+  <div class="copy">
+    <p class="eyebrow">Cash-flow forecasting for iPhone and the&nbsp;web</p>
+    <h1>Know what's safe to spend, <span class="g">and</span> <span class="b">what's coming.</span></h1>
+    <p class="lede">Your checking balance, day by day: today, the low point, every bill on its date. New charges get one tap from you. Nothing is filed behind your back.</p>
+    <div class="ctas"><a class="btn primary" href="/support#early-access">Join the early access list</a><a class="btn" href="#how">How it works</a></div>
+    <p class="note">Read-only. Flo never moves money and never sees your bank password.</p>
+  </div>
+  <div class="phone"><img src="/img/home-hero.png" width="393" height="852" alt="Flo's Home on an iPhone: All on track; Cash flow covered for 60 days, Spending within budget, Paying down, Savings on pace; the Cash flow card with Available now and the lowest point ahead, a note about a paycheck landing the day before a bill, extra in the next 30 days; Floating spend below"></div>
+</section>
+
+<div class="wrap strip">
+  <span><b>Read-only</b> through Plaid</span>
+  <span><b>No rules</b> that file for you</span>
+  <span><b>Day by day</b>, not month by month</span>
+  <span><b>iPhone and web</b>, one account</span>
+</div>
+
+<section class="band" id="how">
+  <div class="wrap two">
+    <div class="copy">
+      <p class="eyebrow">The question at the register</p>
+      <h2>Can I pay rent on the 3rd?</h2>
+      <p class="lede">Other apps show where last month went. Flo shows what's in checking on the 3rd, with every bill and paycheck on its day, and names the low point weeks ahead.</p>
     </div>
-    <p class="note" style="margin-top:14px">Read-only. Flo never moves money and never sees your bank password.</p>
-  </div>
-  <div class="hero-shot"><img class="phone" src="/img/home.png" width="390" height="844" alt="Flo's Home screen: a check-in on cash flow, spending and savings, today's balance and where it lands in three months, how much is extra in the next 30 days, and a projected balance chart"></div>
-  <div class="waves hero-waves" aria-hidden="true"><i></i><i></i><i></i></div>
-</section>
-
-<section class="section reel wavy" style="margin-top:70px;border-top:0" aria-labelledby="reel-h">
-  <div class="reel-in">
-    <div>
-      <h2 id="reel-h">Why it's called Flo</h2>
-      <p class="sub">Four words the name already carries, and each one is something the app actually does.</p>
-      <ul class="reel-words">
-        <li><b class="grad">flow</b><span>Know your cash flow today, and a year out.</span></li>
-        <li><b class="grad">float</b><span>See what's floating on your cards, and when each bill lands.</span></li>
-        <li><b class="grad">floor</b><span>Set the balance you won't go under, and get told before you do.</span></li>
-        <li><b class="grad">flourish</b><span>Give savings a goal and a date, and watch the climb.</span></li>
-      </ul>
+    <div class="chart">
+      <img src="/img/chart.png" width="700" height="340" alt="Projected balance, a bar for each day from today through December 31">
+      <div class="days">
+        <div class="day"><div class="k">Today</div><div class="v">$4,218</div></div>
+        <div class="day"><div class="k">Lowest, Nov 1</div><div class="v">$2,214</div></div>
+        <div class="day"><div class="k">Dec 31</div><div class="v">$6,912</div></div>
+      </div>
+      <p class="note" style="margin-top:10px">Sample data.</p>
     </div>
-    <figure class="reel-screen">
-      <video class="reel-video" src="/img/flo-dial.mp4" poster="/img/flo-dial-poster.jpg"
-             width="270" height="480" autoplay muted loop playsinline preload="metadata"
-             aria-label="The word flo turning like a dial through flow, float, floor and flourish, each with a line about what Flo does"></video>
-      <figcaption class="note">Go with the Flo.</figcaption>
-    </figure>
-  </div>
-  <div class="waves" aria-hidden="true"><i></i><i></i><i></i></div>
-</section>
-
-<section class="section" style="margin-top:70px;border-top:0">
-  <h2>Where your money is going, not just where it went</h2>
-  <p class="sub">Most budgeting apps report the past. Flo looks ahead, at every bill, paycheck and card payment still to come, so you can see a problem weeks before it lands.</p>
-  <div class="features">
-    <div class="feat"><span class="ico" aria-hidden="true">🟢</span><h3>Safe to spend</h3><p>The lowest your balance is projected to reach, minus a floor you set, over the next month, three months or year. You see when you'd dip, not just how much.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">🔔</span><h3>A heads-up before it happens</h3><p>Flo tells you when your balance is headed below your floor in the next two weeks, and three days before a card payment is due. Notifications never show an amount.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">🎈</span><h3>Credit cards that make sense</h3><p>Floating spend is everything on your cards not yet paid, grouped by the month each bill is due, so the payment never catches you off guard.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">🗓️</span><h3>A budget that knows your month</h3><p>One plan of bills, income and spending money. For any month, see what's happened, what's planned and where it's heading.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">🗂️</span><h3>Sorting that learns</h3><p>New transactions land in To sort, matched to a bill when they fit. Flo suggests where each goes from last time, and you confirm. Split a charge when one store run was two things.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">🐮</span><h3>Savings with a finish line</h3><p>Give savings a goal and a date, and Flo shows whether you're on pace, ahead or behind.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">📊</span><h3>Insights you can tap into</h3><p>Spending by category, money in vs. out, and your plan against what really happened. Tap any category to see every charge.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">✨</span><h3>Smarter sorting, if you want it</h3><p>Optional AI help naming unfamiliar businesses and suggesting a budget. Off until you say yes, and every suggestion waits for you.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">📉</span><h3>Paying down debt</h3><p>Set one monthly amount for your cards and loans. Flo puts them in order, never below the minimums, and shows your debt-free date.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">💼</span><h3>Work expenses, kept apart</h3><p>Mark a group as paid back, and what you file there stays out of your budget but in your cash flow. Insights shows what you spent against what came back.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">🏡</span><h3>Share it with a partner</h3><p>Invite someone into your household with a code. You share one budget, each of you links your own banks, and one subscription covers them all.</p></div>
-    <div class="feat"><span class="ico" aria-hidden="true">💻</span><h3>On your phone or computer</h3><p>Use Flo on iPhone or in any browser at app.floapp.app, with the same account.</p></div>
   </div>
 </section>
 
-<section class="section">
-  <h2>Built for the question you ask at the register</h2>
-  <p class="sub">Flo isn't a net-worth dashboard or an envelope system. It answers one thing well: <i>can I afford this without causing a problem later?</i></p>
-  <div class="shots">
-    <div class="shot"><img src="/img/cards-savings.png" width="390" height="844" alt="Floating spend on credit cards, and a savings goal with its month-by-month climb, two months ahead"><p>Savings goals, and what's floating on your cards</p></div>
-    <div class="shot"><img src="/img/budget.png" width="390" height="844" alt="Budget, month by month, with so far, planned and projected figures"><p>Budget: so far, planned and projected, month by month</p></div>
-    <div class="shot"><img src="/img/insights.png" width="390" height="844" alt="Insights: spending by category as a donut and six months of stacked bars"><p>Insights: where it went, month by month</p></div>
+<section class="band alt" id="why">
+  <div class="wrap two">
+    <div class="copy">
+      <p class="eyebrow">Budget and cash flow are two different questions</p>
+      <h2>Within budget isn't the same as safe to spend.</h2>
+      <p class="lede">A budget is for the month. Your checking account lives day to day. Home shows both.</p>
+      <div class="rcs">
+        <div class="rc">
+          <div class="rc-h">The budget <span>for the month</span></div>
+          <div class="rc-l"><span>Spending money for October, after bills</span><b>$1,200</b></div>
+          <div class="rc-l"><span>Days left in October</span><b>20</b></div>
+          <div class="rc-t"><span>Within budget</span><b class="pos">$60 a day</b></div>
+        </div>
+        <div class="rc warn">
+          <div class="rc-h">Your checking account <span>until payday</span></div>
+          <div class="rc-l"><span>In checking today</span><b>$1,300</b></div>
+          <div class="rc-l"><span>Bills that come out before payday</span><b class="low">&minus;$700</b></div>
+          <div class="rc-l"><span>Left until the Nov&nbsp;3 paycheck</span><b>$600</b></div>
+          <div class="rc-l"><span>Days until that paycheck</span><b>20</b></div>
+          <div class="rc-t"><span>Avoid the overdraft</span><b class="low">$30 a day</b></div>
+        </div>
+      </div>
+      <p class="punch">The budget counts the whole month, the Nov&nbsp;3 paycheck included. Your checking account doesn't have that paycheck yet. Spend $60 a day before it lands and you're $600 under on Nov&nbsp;1.</p>
+    </div>
+    <div class="phone home" role="img" aria-label="Flo's Home check-in: Cash flow dips Nov 1, $600 under; Spending within budget at $60 a day, avoid the overdraft at $30 a day; Savings on pace">
+      <div class="ph-top"><span class="ph-pill">+ Float it in</span><b>Home</b><span class="ph-pill">To sort</span></div>
+      <div class="ph-card checkin">
+        <div class="ci"><span class="dot warn"></span><div><div class="ci-l">Cash flow</div><div class="ci-t warn">Dips Nov 1 &middot; $600 under $0</div><div class="ci-s">Paycheck lands Nov 3</div></div></div>
+        <div class="ci"><span class="dot warn"></span><div><div class="ci-l">Spending</div><div class="ci-t">Within budget &middot; $60 a day</div><div class="ci-hi">Avoid the overdraft: $30 a day</div></div></div>
+        <div class="ci"><span class="dot"></span><div><div class="ci-l">Savings</div><div class="ci-t">On pace &middot; 2 months ahead of goal</div></div></div>
+      </div>
+      <div class="ph-card ghost"><div class="ph-row"><b>Cash flow</b><span class="ph-link">Upcoming cash flow &rsaquo;</span></div><div class="ph-bank">Sample Checking &middot; as of 9:41 today</div></div>
+      <p class="note" style="text-align:center">Sample data.</p>
+    </div>
   </div>
-  <p class="sample">Screens show sample data.</p>
 </section>
 
-<section class="section faq">
-  <h2>Questions</h2>
-  <details><summary>How does Flo connect to my accounts?</summary><p>For banks and credit unions, through Plaid, with a read-only connection to balances and transactions. On iPhone, you can also link Apple Card, Apple Cash and Apple Savings from Apple Wallet. Flo never sees your bank login, and you can disconnect anything in Settings.</p></details>
-  <details><summary>Which accounts can I link?</summary><p>Checking, savings, credit cards, loans and investment accounts (a 401k, an IRA, a brokerage account, an HSA) at any US bank, credit union or brokerage Plaid supports, plus Apple Card, Apple Cash and Apple Savings on iPhone. Investment accounts are never counted as cash to spend: Flo shows what you put in and what the market did.</p></details>
-  <details><summary>Can Flo move my money?</summary><p>No. Flo is read-only by design. It can't transfer, pay, or withdraw anything.</p></details>
-  <details><summary>Does Flo use AI?</summary><p>Only if you turn on Smarter sorting. It sends business names, categories, amounts and how often, never your email, account numbers, balances, transfers or payments to people, and your name is removed first. It uses Anthropic's Claude, which doesn't train on it.</p></details>
-  <details><summary>What do notifications say?</summary><p>Three kinds, all optional: your balance heading below your floor in the next two weeks, a card payment due in three days, and a bank that stopped syncing. None shows an amount.</p></details>
-  <details><summary>What does it cost?</summary><p>Free during the beta. At launch, linking accounts will be part of a paid plan; tracking by hand stays free.</p></details>
-  <details><summary>When is it available?</summary><p>Flo Forecast is in beta on TestFlight. Join the early-access list on the <a href="/support#early-access">support page</a> to get an invitation.</p></details>
-  <details><summary>Can I use Flo on a computer?</summary><p>Yes. Sign in at <a href="https://app.floapp.app">app.floapp.app</a> with the same account you use on iPhone.</p></details>
-  <details><summary>Can I share Flo with a partner?</summary><p>Yes. Set up a household and invite them. You share one budget, and one subscription covers every bank in it.</p></details>
-  <details><summary>Who makes it?</summary><p>Flo is built by JustJoshin LLC in Greenville, South Carolina. <a href="/about">More about us.</a></p></details>
+<section class="band alt">
+  <div class="wrap">
+    <p class="eyebrow">What people give up on</p>
+    <h2>Four things budgeting apps get wrong</h2>
+    <div class="pairs">
+      <article class="pair">
+        <div>
+          <div class="q">"It filed my lunch as groceries.&nbsp;Again."<small>Heard about every app that sorts for you</small></div>
+          <h3>Flo shows, you decide</h3>
+          <p>Flo's guess is lit. One tap files it. Untick what's wrong and Flo asks. No rules, nothing filed for you.</p>
+        </div>
+        <div class="shot plain"><img src="/img/sort-groceries.png" width="718" height="628" loading="lazy" alt="A sorting card: These look like Groceries, seven charges at one shop, with the subscription found among them sorted separately. One button: File it as Groceries."></div>
+      </article>
+      <article class="pair">
+        <div>
+          <div class="q">"Will I have enough on the&nbsp;1st?"<small>The question a monthly budget can't answer</small></div>
+          <h3>A balance for every day</h3>
+          <p>Every paycheck and bill on its day, run forward from today's balance. The low point is named, and one line says you're covered.</p>
+        </div>
+        <div class="shot plain"><img src="/img/cash-flow-card.png" width="720" height="707" loading="lazy" alt="Home's cash flow card: Cash flow covered for 60 days; Sample Bank, $6,586 available now, $6,636 current, lowest $1,510 on Dec 14; and the projected balance, one bar per day, through December 31"></div>
+      </article>
+      <article class="pair">
+        <div>
+          <div class="q">"I never know what's on my card until the bill&nbsp;hits."<small>And in most apps the payment itself becomes a puzzle</small></div>
+          <h3>Floating spend</h3>
+          <p>What's on your cards and not paid yet, by the month it's due, already counted in your cash flow. No surprise on payment day.</p>
+        </div>
+        <div class="shot plain"><img src="/img/floating-spend.png" width="720" height="600" loading="lazy" alt="Floating spend: $1,284 unpaid on cards, the card payment due Oct 14, and what floats into November and December"></div>
+      </article>
+      <article class="pair">
+        <div>
+          <div class="q">"The power bill is never the same&nbsp;twice."<small>So most apps call it late, or make you fix it by hand</small></div>
+          <h3>Bills matched to what posts</h3>
+          <p>The charge lands, the bill is paid, whatever the amount. One that comes in different asks once, in plain words.</p>
+        </div>
+        <div class="shot plain"><img src="/img/bill-power.png" width="718" height="382" loading="lazy" alt="A To sort card: Power Co, planned at $98, came in at $110 on Sep 12, $12 more than planned. Yes, or Change."></div>
+      </article>
+    </div>
+  </div>
 </section>
 
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">Setup</p>
+    <h2>A budget built from what you really spent</h2>
+    <div class="steps">
+      <div class="step"><div class="n">First</div><h3>Sort three months</h3><p>Grouped by place, sure ones first. Untick what's wrong, file the rest in one tap.</p></div>
+      <div class="step"><div class="n">Then</div><h3>Flo fills in the budget</h3><p>Bills on their day, spending money by category, paychecks on schedule. Yearly bills it hasn't seen yet show as guesses.</p></div>
+      <div class="step"><div class="n">After</div><h3>One tap a day</h3><p>New charges wait in To sort with Flo's answer on the card. Yes, or Change.</p></div>
+    </div>
+    <div class="shots">
+      <figure><div class="shot plain"><img src="/img/sort-place.png" width="718" height="952" loading="lazy" alt="One place at a time: Sample Pest, three charges, with Pest Control lit as Flo's guess"></div><figcaption>Flo's guess, lit. One tap.</figcaption></figure>
+      <figure><div class="shot plain"><img src="/img/budget-month.png" width="720" height="590" loading="lazy" alt="Budget: October, planned and heading, bills left and spending left"></div><figcaption>Budget, month by month.</figcaption></figure>
+      <figure><div class="shot plain"><img src="/img/to-sort-diner.png" width="718" height="352" loading="lazy" alt="A To sort card: New charge, Sample Diner, $43. Flo's answer: Restaurants, last time. Yes, or Change."></div><figcaption>A new charge, Flo's answer, one tap.</figcaption></figure>
+    </div>
+    <p class="note" style="margin-top:18px;text-align:center">Screens show sample data.</p>
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap">
+    <p class="eyebrow">Your bank</p>
+    <h2>Read-only, through Plaid</h2>
+    <div class="plain" style="margin-top:20px">
+      <p>Balances and transactions from US banks, credit unions and brokerages. Apple Card, Apple Cash and Apple Savings from Wallet.</p>
+      <p>If a bank stops sending, Flo tells you and holds the numbers it had. It never moves money and never sees your login.</p>
+    </div>
+    <div class="also">
+      <div><b>Savings goals</b><span>A goal, a date, on pace or not.</span></div>
+      <div><b>Work expenses</b><span>Paid-back spending stays out of your budget.</span></div>
+      <div><b>Partners</b><span>One budget, each links their own banks.</span></div>
+      <div><b>Insights</b><span>Where it went, down to every charge.</span></div>
+      <div><b>Smarter sorting</b><span>Optional AI for unfamiliar names. Off until you say yes.</span></div>
+      <div><b>Phone or computer</b><span>iPhone, or any browser at <a href="https://app.floapp.app">app.floapp.app</a>. One account.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="name">
+  <div class="wrap">
+    <p class="eyebrow">Why it's called Flo</p>
+    <h2>Four words in the name</h2>
+    <div class="name">
+      <div><b>flow</b><span>Your cash, today and a year out.</span></div>
+      <div><b>float</b><span>What's on your cards, and when it's due.</span></div>
+      <div><b>floor</b><span>The balance you won't go under.</span></div>
+      <div><b>flourish</b><span>Savings with a goal and a date.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <div style="margin-top:16px">
+      <details><summary>How does Flo connect to my accounts?</summary><p>Through Plaid, read-only. On iPhone, Apple Card, Apple Cash and Apple Savings link from Wallet. Flo never sees your bank login. Disconnect anything in Settings.</p></details>
+      <details><summary>Does Flo file transactions for me?</summary><p>No. Flo shows its best guess; you decide, one tap per place. No automatic rules.</p></details>
+      <details><summary>Can Flo move my money?</summary><p>No. Read-only by design.</p></details>
+      <details><summary>Does Flo use AI?</summary><p>Only if you turn on Smarter sorting. It sends business names, categories, amounts and how often. Never your email, account numbers, balances or payments to people. Anthropic's Claude, which doesn't train on it.</p></details>
+      <details><summary>What do notifications say?</summary><p>Three, all optional: heading under your floor in the next two weeks, a card payment due in three days, a bank that stopped syncing. None shows an amount.</p></details>
+      <details><summary>What does it cost?</summary><p>Free during the beta. At launch, linking accounts will be part of a paid plan; tracking by hand stays free.</p></details>
+      <details><summary>When is it available?</summary><p>In beta on TestFlight. Join the early-access list on the <a href="/support#early-access">support page</a> for an invitation.</p></details>
+      <details><summary>Who makes it?</summary><p>Flo is built by JustJoshin LLC in Greenville, South Carolina. <a href="/about">More about us.</a></p></details>
+    </div>
+  </div>
+</section>
 </main>
-<div class="waves foot-waves" aria-hidden="true"><i></i><i></i><i></i></div>
-<footer>
-  <div class="wrap row">
-    <div>© 2026 JustJoshin LLC · Greenville, South Carolina · Flo and Flo Forecast are products of JustJoshin LLC.</div>
-    <div><a href="/about">About</a><a href="/support">Support</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a class="ig" href="https://www.instagram.com/floforecast/" target="_blank" rel="noopener" aria-label="Flo on Instagram, @floforecast"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@floforecast</a><a class="ig" href="https://www.facebook.com/floforecast" target="_blank" rel="noopener" aria-label="Flo Forecast on Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a></div>
-  </div>
+
+<footer class="wrap">
+  <p>&copy; 2026 JustJoshin LLC &middot; Greenville, South Carolina &middot; Flo and Flo Forecast are products of JustJoshin LLC.</p>
+  <div class="fl"><a href="/about">About</a><a href="/support">Support</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a class="ig" href="https://www.instagram.com/floforecast/" target="_blank" rel="noopener" aria-label="Flo on Instagram, @floforecast"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@floforecast</a><a class="ig" href="https://www.facebook.com/floforecast" target="_blank" rel="noopener" aria-label="Flo Forecast on Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a></div>
 </footer>
-<script>
-// CSS can pause an animation but not a film. Anyone who has asked their device not to
-// animate things gets the poster frame instead, which carries the same sentence.
-(function () {
-  try {
-    var v = document.querySelector(".reel-video");
-    if (!v) return;
-    var quiet = window.matchMedia("(prefers-reduced-motion: reduce)");
-    var apply = function () { if (quiet.matches) { v.autoplay = false; v.pause(); v.currentTime = 0; } };
-    apply();
-    quiet.addEventListener ? quiet.addEventListener("change", apply) : quiet.addListener(apply);
-  } catch (e) { /* the poster is showing either way */ }
-})();
-</script>
 </body>
 </html>
